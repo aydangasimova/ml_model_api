@@ -3,6 +3,7 @@ import pandas as pd
 from househunters_ml.predict import XgBoost, col_names, test_transformation
 
 
+
 # endpoint = 'http://127.0.0.1:5008/predict_post'
 #
 # # The request parameters (in a Python dictionary)
@@ -97,15 +98,17 @@ def predict_url():
 # http://127.0.0.1:5008/url_prediction?LivingArea_m2=90&QuietRoad=1&#Bedrooms=3&StatusRank=2233&Avg_house_value_WOZ_1000euros=600&Avg_WOZ_m2=60&CitySide=1&HouseType_Detached=0&Age_cat_Before_war=0&Urbanity_class_5=1
 
 
+def load_batch_for_prediction(data_location="data/190322 - HouseTable_vDef_excel.csv"):
+    csv_path = "data/190322 - HouseTable_vDef_excel.csv"
+    test_df = pd.read_csv(r'{}'.format(csv_path),  delimiter=';', decimal=',', thousands='.')
+    return test_df
+
 @app.route('/predict_all', methods=['GET'])
 def predict_all():
     # Hint: you can use the test_transformation function you have made yesterday!
     try:
-        csv_path = "data/190322 - HouseTable_vDef_excel.csv"
-        df = pd.read_csv(pd.read_csv(r'{}'.format(csv_path), delimiter=';', decimal=',', thousands='.'))
-        X_predict = test_transformation(df)
-        print(X_predict)
-        print('AAAA')
+        X_predict = test_transformation(load_batch_for_prediction())
+
         # Make new predictions
         predicted = XgBoost.predict(X_predict)
 
@@ -114,16 +117,17 @@ def predict_all():
         X_predict.to_csv('batch_predictions.csv', header=True)
         return 'prediction was successful'
 
-    except Exception:
-        return 'Error occured'
+    except Exception as e:
+        print(e)
+        return 'Error occurred'
 
 
 
 # /Index route that displays the form
-@app.route('/index')
-def index():
+@app.route('/my_template')
+def my_template():
     # A form that sends a post request to /predict_post
-    return render_template('index.html')
+    return render_template('my_template.html')
 
 
 # Define a route that receives a post request and returns the form together with a prediction
@@ -176,3 +180,5 @@ def pred_post():
 if __name__ == '__main__':
     app.run(port=5008,
             debug=True)  # Instantly see changes on the server
+
+

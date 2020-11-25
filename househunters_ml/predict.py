@@ -13,6 +13,9 @@ csv_path = "data/190322 - HouseTable_vDef_excel.csv"
 
 df = pd.read_csv(r'{}'.format(csv_path),  delimiter=';', decimal=',', thousands='.')
 
+test_df = pd.read_csv(r'{}'.format(csv_path),  delimiter=';', decimal=',', thousands='.')
+
+
 # Load the model
 XgBoost = pickle.load(open('model.pickle', 'rb'))
 
@@ -72,8 +75,6 @@ def test_transformation(prediction_set):
     prediction_set_copy['Urbanity_class'] = dataUrban
 
     prediction_set_copy = prediction_set_copy[col_names]
-
-    print("this is how it should be", prediction_set_copy.head())
 
     return prediction_set_copy
 
