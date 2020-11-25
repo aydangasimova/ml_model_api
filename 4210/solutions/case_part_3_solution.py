@@ -252,7 +252,7 @@ def index():
 
 
 # Define a route that receives a post request and returns the form together with a prediction
-@app.route('/predict_post', methods=['POST'])
+@app.route('/predict_post', methods=['GET', 'POST'])
 def pred_post():
     # We have extracted a dictionary with all variables:values pairs
     user_input = request.form
