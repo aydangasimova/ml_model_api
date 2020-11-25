@@ -13,7 +13,7 @@ Notebook to test them.
 
 """
 
-import requests
+from flask import Flask, request, send_file
 
 
 # Extra Exercise 1: Calling your API
