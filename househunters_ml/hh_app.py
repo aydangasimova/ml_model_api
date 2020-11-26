@@ -159,54 +159,52 @@ def predict_based_on_form():
     # return render_template('hh_private_sales_form.html')
     return render_template('hh_private_sales_form.html', pred=prediction_text)
 
-
-# Define a route that receives a post request and returns the form together with a prediction
-@app.route('/predict_post', methods=['POST'])
-def pred_post():
-    # We have extracted a dictionary with all variables:values pairs
-    user_input = request.form
-
-
-
-    # Create empty DataFrame with exact order of columns
-    df = pd.DataFrame(columns=col_names)
-    dict_x = {}
-
-    # Apply a similar loop as before
-    # Think - what has changed from the input we received from the URL?
-    # Are we expecting to get the same format for the different variables?
-    for variable in user_input:
-        if variable in ('average_monthly_hours', 'number_project'):
-            dict_x[variable] = float(user_input[variable])
-        elif variable in ('satisfaction_level') and user_input[variable] == '':
-            # If satisfaction level is null, fill with the imputated value
-            dict_x[variable] = impute
-        elif variable in ('satisfaction_level', 'last_evaluation'):
-            dict_x[variable] = float(user_input[variable]) / 100
-        elif variable in ('salary'):
-            # Since we expect a string and not a float, we should add this part
-            dict_x[variable] = user_input[variable]
-        else:
-            # Dummify department variables
-            dict_x = dummify_department(user_input[variable], dict_x)
-
-    # Create new variable
-    dict_x['hours_per_project'] = dict_x['average_monthly_hours']/dict_x['number_project']
-
-    # Append the dictionary
-    df = df.append(dict_x, ignore_index=True)
-
-    # Apply the rest of the transformations
-    # Encode salary
-    df.replace(encode, inplace=True)
-
-    # Scale monthly hours
-    df['average_monthly_hours'] = scale.transform(df['average_monthly_hours'].values.reshape(1, -1))
-
-    # Predict
-    prediction = forest.predict(np.array(df).reshape(1, -1))[0]
-    prediction_text = 'Employee will leave' if prediction == 1 else "Employee won't leave"
-    return render_template('index.html', pred=prediction_text)
+#
+# # Define a route that receives a post request and returns the form together with a prediction
+# @app.route('/predict_post', methods=['POST'])
+# def pred_post():
+#     # We have extracted a dictionary with all variables:values pairs
+#     user_input = request.form
+#
+#     # Create empty DataFrame with exact order of columns
+#     df = pd.DataFrame(columns=col_names)
+#     dict_x = {}
+#
+#     # Apply a similar loop as before
+#     # Think - what has changed from the input we received from the URL?
+#     # Are we expecting to get the same format for the different variables?
+#     for variable in user_input:
+#         if variable in ('average_monthly_hours', 'number_project'):
+#             dict_x[variable] = float(user_input[variable])
+#         elif variable in ('satisfaction_level') and user_input[variable] == '':
+#             # If satisfaction level is null, fill with the imputated value
+#             dict_x[variable] = impute
+#         elif variable in ('satisfaction_level', 'last_evaluation'):
+#             dict_x[variable] = float(user_input[variable]) / 100
+#         elif variable in ('salary'):
+#             # Since we expect a string and not a float, we should add this part
+#             dict_x[variable] = user_input[variable]
+#         else:
+#             # Dummify department variables
+#             dict_x = dummify_department(user_input[variable], dict_x)
+#
+#     # Create new variable
+#     dict_x['hours_per_project'] = dict_x['average_monthly_hours']/dict_x['number_project']
+#
+#     # Append the dictionary
+#     df = df.append(dict_x, ignore_index=True)
+#
+#     # Apply the rest of the transformations
+#     # Encode salary
+#     df.replace(encode, inplace=True)
+#
+#     # Scale monthly hours
+#     df['average_monthly_hours'] = scale.transform(df['average_monthly_hours'].values.reshape(1, -1))
+#
+#     # Predict
+#     prediction = forest.predict(np.array(df).reshape(1, -1))[0]
+#     prediction_text = 'Employee will leave' if prediction == 1 else "Employee won't leave"
+#     return render_template('index.html', pred=prediction_text)
 
 
 if __name__ == '__main__':

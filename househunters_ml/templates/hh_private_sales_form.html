@@ -10,105 +10,109 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="#">Home</a>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="#">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="http://127.0.0.1:5008/post_listing">Post a Listing</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://www.funda.nl/">View Listings</a>
-      </li>
-    </ul>
-    <button type="button" class="btn btn-outline-light">Sign in</button>
-  </div>
-</nav>
-
-<div class="media">
-  <img src="https://www.flaticon.com/svg/static/icons/svg/1083/1083511.svg" class="mr-3" alt="...">
-  <div class="media-body">
-    <h5 class="mt-0">AI Real Estate Agent</h5>
-    Welcome, I am your AI real Estate Agent. I want to enable you to post your property on sale for a fair price.
-    Enter the details of your propery you would like list for sale to get a reccommendation for an asking price for your property.
-  </div>
-</div>
-
-<h1></h1>
-
-<form action="/form_prediction" method="post">
-  <div class="row">
-    <div class="col">
-      <label for="LivingArea_m2">Square Meters of the Living Area:</label>
-      <input type="text" class="form-control" placeholder="e.g. 95">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:5008/post_listing">Post a Listing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.funda.nl/">View Listings</a>
+        </li>
+      </ul>
+      <button type="button" class="btn btn-outline-light">Sign in</button>
     </div>
-    <div class="col">
-      <label for="QuietRoad">Do you live by a quiet road?</label>
-      <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
-    </div><br><br>
-  </div>
-  <div class="row">
-    <div class="col">
-      <label for="Num_Bedrooms">How many bedrooms are in your flat?</label>
-      <input type="text" class="form-control" placeholder="e.g. 2">
-    </div>
-    <div class="col">
-      <label for="StatusRank">What is the status rank?</label>
-      <input type="text" class="form-control" placeholder="e.g. 2000">
+  </nav>
+
+  <div class="media">
+    <img src="https://www.flaticon.com/svg/static/icons/svg/1083/1083511.svg" class="mr-3" alt="...">
+    <div class="media-body">
+      <h5 class="mt-0">AI Real Estate Agent</h5>
+      Welcome, I am your AI real Estate Agent. I want to enable you to post your property on sale for a fair price.
+      Enter the details of your propery you would like list for sale to get a reccommendation for an asking price for your property.
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <label for="Num_Bedrooms">How many bedrooms are in your flat?</label>
-      <input type="text" class="form-control" placeholder="e.g. 2">
-    </div>
-    <div class="col">
-      <label for="CitySide">Do you live in a city?</label>
-      <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <label for="Avg_WOZ_m2">Avg_WOZ_m2?</label>
-      <input type="text" class="form-control" placeholder="e.g. 60">
-    </div>
-    <div class="col">
-      <label for="Avg_house_value_WOZ_1000euros">Avg_house_value_WOZ_1000euros?</label>
-      <input type="text" class="form-control" placeholder="e.g. 600">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <label for="HouseType_Detached">Is your house detached?</label>
-      <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
-    </div>
-    <div class="col">
-      <label for="Age_cat_Before_war">Was it built before the war?</label>
-      <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <label for="Urbanity_class_5">Do you live in a highly urban area?</label>
-      <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
+
+  <form action="/form_prediction" method="post">
+
+    <div class="row">
+      <div class="col">
+        <label for="LivingArea_m2">Square Meters of the Living Area:</label>
+        <input type="text" class="form-control" placeholder="e.g. 95">
+      </div>
+      <div class="col">
+        <label for="QuietRoad">Do you live by a quiet road?</label>
+        <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
+      </div>
 
     </div>
-  </div>
-  <br><br>
+    <div class="row">
+      <div class="col">
+        <label for="Num_Bedrooms">How many bedrooms are in your flat?</label>
+        <input type="text" class="form-control" placeholder="e.g. 2">
+      </div>
+      <div class="col">
+        <label for="StatusRank">What is the status rank?</label>
+        <input type="text" class="form-control" placeholder="e.g. 2000">
+      </div>
+    </div>
 
-  <input class="btn btn-primary" type="submit" value="Submit" margin-left=600px>
+    <div class="row">
+      <div class="col">
+        <label for="Num_Bedrooms">How many bedrooms are in your flat?</label>
+        <input type="text" class="form-control" placeholder="e.g. 2">
+      </div>
+      <div class="col">
+        <label for="CitySide">Do you live in a city?</label>
+        <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
+      </div>
+    </div>
 
-  <label>Model's prediction: {{pred}}</label>
+    <div class="row">
+      <div class="col">
+        <label for="Avg_WOZ_m2">Avg_WOZ_m2?</label>
+        <input type="text" class="form-control" placeholder="e.g. 60">
+      </div>
+      <div class="col">
+        <label for="Avg_house_value_WOZ_1000euros">Avg_house_value_WOZ_1000euros?</label>
+        <input type="text" class="form-control" placeholder="e.g. 600">
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col">
+        <label for="HouseType_Detached">Is your house detached?</label>
+        <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
+      </div>
+      <div class="col">
+        <label for="Age_cat_Before_war">Was it built before the war?</label>
+        <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
+      </div>
+    </div>
 
-</form>
+    <div class="row">
+      <div class="col">
+        <label for="Urbanity_class_5">Do you live in a highly urban area?</label>
+        <input type="text" class="form-control" placeholder="1 for Yes, 0 for No">
+      </div>
+    </div>
+    <br><br>
 
+    <input class="btn btn-primary" type="submit" value="Submit" margin-left=600px>
+    <br><br>
 
+    <label>Model's prediction: {{pred}}</label>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script></body>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+  </script>
+
 </body>
+
 </html>
