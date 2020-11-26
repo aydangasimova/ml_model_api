@@ -1,0 +1,31 @@
+#mybutton {
+  font-family Corbel;
+  padding: 10px;
+  color: #28192c;
+  background-color: #D5C8D7;
+  border: none;
+  margin-left: 600px
+
+}
+
+body {
+  background-color: #FCF5EA;
+  style="font-family:Corbel";
+  margin-left: 10px
+}
+
+h1 {
+  color: #349ECB;
+  style: "font-family:Corbel";
+  margin-left: 10px
+
+}
+
+input {
+  margin-left: 30px;
+}
+
+#test {
+  color: white;
+  background-color: #349ECB;
+}

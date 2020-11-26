@@ -115,7 +115,7 @@ def shutdown():
 # 2. Add a new API route that returns a gif
 @app.route('/sellahouse', methods=['GET'])
 def showGif():
-    return send_file('giphy.gif', mimetype='image/gif')
+    return send_file('media/giphy.gif', mimetype='image/gif')
 
 
 # 3. Add a new API route that uses parameters and returns Welcome + the name you entered
@@ -149,9 +149,9 @@ def checkSolution():
     answer = request.args.get('answer')
 
     if answer == 'nofire':
-         return (send_file('giphy.gif', mimetype='image/gif'))
+         return (send_file('media/giphy.gif', mimetype='image/gif'))
     else:
-         return (send_file('fire.gif', mimetype='image/gif'))
+         return (send_file('media/fire.gif', mimetype='image/gif'))
 
 
 

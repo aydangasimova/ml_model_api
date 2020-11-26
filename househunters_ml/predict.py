@@ -17,15 +17,13 @@ test_df = pd.read_csv(r'{}'.format(csv_path),  delimiter=';', decimal=',', thous
 
 
 # Load the model
-XgBoost = pickle.load(open('model.pickle', 'rb'))
+XgBoost = pickle.load(open('model/model.pickle', 'rb'))
 
 # Load the column names
-col_names = pickle.load(open('columns.pickle', 'rb'))
-
-# Create pipeline to transform the test set
-# Hint - use str.replace('%','') to remove specific punctuation from a string
+col_names = pickle.load(open('model/columns.pickle', 'rb'))
 
 
+#TODO: Figure out how this horrendous function can be improved, which parts are redundant.
 def test_transformation(prediction_set):
     prediction_set_copy = prediction_set.copy()
     prediction_set_copy = prediction_set_copy.rename(columns={"#Bedrooms": "Num_Bedrooms"})
@@ -59,7 +57,7 @@ def test_transformation(prediction_set):
     dataAge = prediction_set_copy['Age_cat']
     dataUrban = prediction_set_copy['Urbanity_class']
 
-    #    Get/add dummies
+    # Get/add dummies
     categoricals = ['Province',
                     'HouseType',
                     'Age_cat',
@@ -68,7 +66,7 @@ def test_transformation(prediction_set):
                     ]
     prediction_set_copy = pd.get_dummies(prediction_set_copy, columns=categoricals)
 
-    #    Add the original categorical column
+    # Add the original categorical column
     prediction_set_copy['Province'] = dataProv
     prediction_set_copy['HouseType'] = dataHouse
     prediction_set_copy['Age_cat'] = dataAge
@@ -79,11 +77,13 @@ def test_transformation(prediction_set):
     return prediction_set_copy
 
 
-X_predict = test_transformation(df)
+if __name__ == '__main__':
 
-# Make new predictions
-predicted = XgBoost.predict(X_predict)
+    X_predict = test_transformation(df)
 
-# Save the predictions to a csv file
-X_predict['predictions'] = predicted
-X_predict.to_csv('predictions.csv')
+    # Make new predictions
+    predicted = XgBoost.predict(X_predict)
+
+    # Save the predictions to a csv file
+    X_predict['predictions'] = predicted
+    X_predict.to_csv('output/predictions.csv')
