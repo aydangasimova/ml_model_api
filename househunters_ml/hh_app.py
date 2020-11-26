@@ -124,23 +124,40 @@ def predict_all():
 
 
 # /Index route that displays the form
-@app.route('/post_listing')
+@app.route('/post_listing', methods=['POST'])
 def my_template():
     return render_template('hh_post_listing.html')
 
 
-@app.route('/form')
+@app.route('/form', methods=['GET', 'POST'])
 def show_form():
     # A form that sends a post request to /predict_based_on_form when the submit button is clicked
     return render_template('hh_private_sales_form.html')
 
 
-@app.route('/form_prediction')
+@app.route('/form_prediction', methods=['GET', 'POST'])
 def predict_based_on_form():
     user_input = request.form
-    print(user_input)
-    return render_template('hh_private_sales_form.html')
-    # return render_template('hh_private_sales_form.html', pred=prediction_text)
+
+    house_info = {}
+
+    df = pd.DataFrame(columns=col_names)
+
+    for column in col_names:
+        house_info[column] = user_input[column]
+
+    df = df.append(house_info, ignore_index=True)
+    print(df.values)
+    df = df.astype(int)
+    print(df.dtypes)
+
+    # Predict
+    predicted_asking_price = XgBoost.predict(df)[0]
+
+    prediction_text = ('The suggested asking price for the house is %s' % predicted_asking_price)
+
+    # return render_template('hh_private_sales_form.html')
+    return render_template('hh_private_sales_form.html', pred=prediction_text)
 
 
 # Define a route that receives a post request and returns the form together with a prediction
