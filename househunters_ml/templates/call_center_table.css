@@ -1,0 +1,23 @@
+#schedule{
+  margin-left: 900px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-right: 100px;
+}
+
+#myInput{
+  margin-left: 900px;
+  margin-top: 30px;
+  margin-right: 100px;
+  width: 460px;
+}
+
+#export{
+  margin-left: 900px;
+  width: 120px
+}
+
+#excel{
+  width: 25px
+}
+

@@ -28,22 +28,26 @@
     </div>
   </nav>
 
-  <div class="media">
+  <div id="AI" class="media">
     <img src="https://www.flaticon.com/svg/static/icons/svg/1083/1083511.svg" class="mr-3" alt="...">
     <div class="media-body">
       <h5 class="mt-0">AI Real Estate Agent</h5>
       Welcome, I am your AI real Estate Agent. I want to enable you to post your property on sale for a fair price.
       Enter the details of your propery you would like list for sale to get a reccommendation for an asking price for your property.
     </div>
-  </div>
+  </div><br>
 
   <form action="/form_prediction" method="post">
-
     <div class="row">
-      <div class="col">
-        <label for="LivingArea_m2">Square Meters of the Living Area:</label>
-        <input name="LivingArea_m2" type="text" id="LivingArea_m2" class="form-control" placeholder="e.g. 95">
+      <label for="LivingArea_m2">How big is the living area of your house?</label>
+      <div class="slidecontainer">
+        <input type="range" min="30" max="300" value="180" class="slider" id="LivingArea_m2" name="LivingArea_m2">
+        <p3>Square Meters: <span id="demo"></span></p3>
       </div>
+     </div>
+
+    <div class="row"><br>
+
       <div class="col">
         <label for="QuietRoad">Do you live by a quiet road?</label>
         <input name="QuietRoad" id="QuietRoad" type="text" class="form-control" placeholder="1 for Yes, 0 for No">
@@ -53,7 +57,23 @@
     <div class="row">
       <div class="col">
         <label for="Num_Bedrooms">How many bedrooms are in your flat?</label>
-        <input name="Num_Bedrooms" id="Num_Bedrooms" type="text" class="form-control" placeholder="e.g. 2">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <select name="Num_Bedrooms" id="Num_Bedrooms" onclick = "ChangeTime()" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <option value="Choose Time">Select number of bedrooms</option>
+              <option value="09:00-16:00">1</option>
+              <option value="11:00-17:00">2</option>
+              <option value="12:00-14:00">3</option>
+              <option value="09:00-16:00">4</option>
+              <option value="11:00-17:00">5</option>
+              <option value="12:00-14:00">6</option>
+              <option value="09:00-16:00">7</option>
+              <option value="11:00-17:00">8</option>
+              <option value="12:00-14:00">9</option>
+              <option value="12:00-14:00">10</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="col">
         <label for="StatusRank">What is the status rank?</label>
@@ -102,9 +122,22 @@
 
   </form>
 
+
+  <script>
+    var slider = document.getElementById("LivingArea_m2");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+  </script>
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
   </script>
+
+
 
 </body>
 

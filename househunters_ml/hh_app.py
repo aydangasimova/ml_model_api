@@ -36,14 +36,9 @@ def shutdown_server():
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def welcome():
-    return 'Welcome to HouseHunters'
-
-
-@app.route('/hello', methods=['GET'])
-def hello():
-    return 'Hello, please enter the information on the house you want to sell, and we will give you a price rec!'
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    return render_template('hh_home.html')
 
 
 @app.route('/shutdown', methods=['GET'])
@@ -124,7 +119,7 @@ def predict_all():
 
 
 # /Index route that displays the form
-@app.route('/post_listing', methods=['POST'])
+@app.route('/post_listing', methods=['GET', 'POST'])
 def my_template():
     return render_template('hh_post_listing.html')
 
@@ -139,6 +134,9 @@ def show_form():
 def predict_based_on_form():
     user_input = request.form
 
+    if user_input == {}:
+        return render_template('hh_private_sales_form.html')
+
     house_info = {}
 
     df = pd.DataFrame(columns=col_names)
@@ -147,14 +145,12 @@ def predict_based_on_form():
         house_info[column] = user_input[column]
 
     df = df.append(house_info, ignore_index=True)
-    print(df.values)
     df = df.astype(int)
-    print(df.dtypes)
 
     # Predict
     predicted_asking_price = XgBoost.predict(df)[0]
 
-    prediction_text = ('The suggested asking price for the house is %s' % predicted_asking_price)
+    prediction_text = ('The suggested asking price for the house is ' % predicted_asking_price)
 
     # return render_template('hh_private_sales_form.html')
     return render_template('hh_private_sales_form.html', pred=prediction_text)
