@@ -1,29 +1,7 @@
+# This is a web application of a real estate platform called HouseHunters that
 from flask import Flask, request, render_template
 import pandas as pd
 from househunters_ml.predict import XgBoost, col_names, test_transformation
-
-
-
-# endpoint = 'http://127.0.0.1:5008/predict_post'
-#
-# # The request parameters (in a Python dictionary)
-# house_info = {'LivingArea_m2': 90,
-#               'QuietRoad': 1,
-#               '#Bedrooms': 3,
-#               'StatusRank': 2233,
-#               'Avg_house_value_WOZ_1000euros': 600,
-#               'Avg_WOZ_m2': 60,
-#               'CitySide': 1,
-#               'HouseType_Detached': 0,
-#               'Age_cat_Before war': 0,
-#               'Urbanity_class_5': 1}
-#
-# # Make the request
-# r = request.post(url=endpoint, data=house_info)
-#
-# # Extract the response
-# response_text = r.text
-# print(response_text)
 
 
 def shutdown_server():
@@ -38,17 +16,29 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    """Loads the homepage"""
     return render_template('hh_home.html')
 
 
 @app.route('/shutdown', methods=['GET'])
 def shutdown():
+    """Shuts down server"""
     shutdown_server()
     return 'Server shutting down...'
 
 
+def parse_json(request):
+    """Helper function to parse the data supplied in a json when loading the page"""
+    house_info = request.get_json(force=True)
+    return house_info
+
+
 @app.route('/json_prediction', methods=['GET', 'POST'])
 def predict_json():
+    """
+    Runs a prediction with the model based on model features supplied through a json in a curl command.
+    See curl-test.sh for a test of this function.
+    """
     # Create empty DataFrame with exact order of columns as needed for prediction
     df = pd.DataFrame(columns=col_names)
     print(col_names)
@@ -64,13 +54,12 @@ def predict_json():
     return ('The suggested asking price for the house is %s' % predicted_asking_price)
 
 
-def parse_json(request):
-    house_info = request.get_json(force=True)
-    return house_info
-
-
 @app.route('/url_prediction', methods=['GET', 'POST'])
 def predict_url():
+    """
+     Runs a prediction with the model based on model features supplied through a url.
+     See curl-test.sh for a test of this function.
+     """
     # Create empty DataFrame with exact order of columns as needed for prediction
     house_info = {}
 
@@ -89,11 +78,9 @@ def predict_url():
 
     return ('The suggested asking price for the house is %s' % predicted_asking_price)
 
-# Test using this
-# http://127.0.0.1:5008/url_prediction?LivingArea_m2=90&QuietRoad=1&#Bedrooms=3&StatusRank=2233&Avg_house_value_WOZ_1000euros=600&Avg_WOZ_m2=60&CitySide=1&HouseType_Detached=0&Age_cat_Before_war=0&Urbanity_class_5=1
-
 
 def load_batch_for_prediction(data_location="data/190322 - HouseTable_vDef_excel.csv"):
+    """Loads the data for a batch prediction"""
     csv_path = "data/190322 - HouseTable_vDef_excel.csv"
     test_df = pd.read_csv(r'{}'.format(csv_path),  delimiter=';', decimal=',', thousands='.')
     return test_df
@@ -101,7 +88,7 @@ def load_batch_for_prediction(data_location="data/190322 - HouseTable_vDef_excel
 
 @app.route('/predict_all', methods=['GET'])
 def predict_all():
-    # Hint: you can use the test_transformation function you have made yesterday!
+    """Runs a batch prediction of the model"""
     try:
         X_predict = test_transformation(load_batch_for_prediction())
 
@@ -120,18 +107,17 @@ def predict_all():
 
 # /Index route that displays the form
 @app.route('/post_listing', methods=['GET', 'POST'])
-def my_template():
+def post_listing():
+    """Web page for posting listings, here you can choose if you are a private or business seller"""
     return render_template('hh_post_listing.html')
-
-
-@app.route('/form', methods=['GET', 'POST'])
-def show_form():
-    # A form that sends a post request to /predict_based_on_form when the submit button is clicked
-    return render_template('hh_private_sales_form.html')
 
 
 @app.route('/form_prediction', methods=['GET', 'POST'])
 def predict_based_on_form():
+    """
+    Web page where once you fill in the information on your house
+    you get a prediction of how much you should ask for your house
+    """
     user_input = request.form
 
     if user_input == {}:
@@ -152,55 +138,7 @@ def predict_based_on_form():
 
     prediction_text = ('The suggested asking price for the house is ' % predicted_asking_price)
 
-    # return render_template('hh_private_sales_form.html')
     return render_template('hh_private_sales_form.html', pred=prediction_text)
-
-#
-# # Define a route that receives a post request and returns the form together with a prediction
-# @app.route('/predict_post', methods=['POST'])
-# def pred_post():
-#     # We have extracted a dictionary with all variables:values pairs
-#     user_input = request.form
-#
-#     # Create empty DataFrame with exact order of columns
-#     df = pd.DataFrame(columns=col_names)
-#     dict_x = {}
-#
-#     # Apply a similar loop as before
-#     # Think - what has changed from the input we received from the URL?
-#     # Are we expecting to get the same format for the different variables?
-#     for variable in user_input:
-#         if variable in ('average_monthly_hours', 'number_project'):
-#             dict_x[variable] = float(user_input[variable])
-#         elif variable in ('satisfaction_level') and user_input[variable] == '':
-#             # If satisfaction level is null, fill with the imputated value
-#             dict_x[variable] = impute
-#         elif variable in ('satisfaction_level', 'last_evaluation'):
-#             dict_x[variable] = float(user_input[variable]) / 100
-#         elif variable in ('salary'):
-#             # Since we expect a string and not a float, we should add this part
-#             dict_x[variable] = user_input[variable]
-#         else:
-#             # Dummify department variables
-#             dict_x = dummify_department(user_input[variable], dict_x)
-#
-#     # Create new variable
-#     dict_x['hours_per_project'] = dict_x['average_monthly_hours']/dict_x['number_project']
-#
-#     # Append the dictionary
-#     df = df.append(dict_x, ignore_index=True)
-#
-#     # Apply the rest of the transformations
-#     # Encode salary
-#     df.replace(encode, inplace=True)
-#
-#     # Scale monthly hours
-#     df['average_monthly_hours'] = scale.transform(df['average_monthly_hours'].values.reshape(1, -1))
-#
-#     # Predict
-#     prediction = forest.predict(np.array(df).reshape(1, -1))[0]
-#     prediction_text = 'Employee will leave' if prediction == 1 else "Employee won't leave"
-#     return render_template('index.html', pred=prediction_text)
 
 
 if __name__ == '__main__':

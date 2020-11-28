@@ -1,0 +1,8 @@
+This repository contains a web application for a fictional real estate platform called House Hunters.
+
+The househunters_ml package provides a Machine Learning backed prediction engine for an asking price of the house.
+
+The model is used by the website of House Hunters providing private sellers on the website with advice
+on the asking price they should set for their house upon filling in information about their house.
+
+Python 3.8 is used.
